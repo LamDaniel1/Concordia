@@ -1,0 +1,81 @@
+     1                                  ; Daniel Lam (40248073)
+     2                                  ; SOEN 228 Winter 2023 - Assignment 1
+     3                                  ; Tuesday, April 11, 2023
+     4                                  
+     5                                  ; Declare unassigned variables
+     6                                  section .bss
+     7 00000000 ??                          max resb 1
+     8                                  
+     9                                  ; Declare initialized variables
+    10                                  section .data
+    11 00000000 03                        mick    db 3
+    12 00000001 04                        keith   db 4
+    13 00000002 02                        ron     db 2
+    14 00000003 01                        charlie db 1
+    15                                    
+    16                                  
+    17                                  section .text
+    18                                  	global _start
+    19                                  
+    20                                  _start:
+    21                                  
+    22                                    ; CODE LOGIC:
+    23                                    ; 1. Assign first two .data variables to al and bl which will be used as 
+    24                                    ; 2. compareMax stores larger of both values into dl register
+    25                                    ; 3. dl keeps getting assigned to al while bl takes in values of every other variable
+    26                                    ; aka, dl will always store the largest value of all variables
+    27                                  
+    28                                    ; Assign al and bl to first two variables
+    29 00000000 A0[00000000]              mov al, [mick]
+    30 00000005 8A1D[01000000]            mov bl, [keith]
+    31 0000000B E856000000                call compareMax
+    32                                    
+    33                                    ; Compare dl with ron
+    34 00000010 88D0                      mov al, dl
+    35 00000012 8A1D[02000000]            mov bl, [ron]
+    36 00000018 E849000000                call compareMax
+    37                                    
+    38                                    ; Compare dl with charlie
+    39 0000001D 88D0                      mov al, dl
+    40 0000001F 8A1D[03000000]            mov bl, [charlie]
+    41 00000025 E83C000000                call compareMax
+    42                                    
+    43                                    
+    44                                    ; Assign dl to value of max
+    45 0000002A A3[00000000]            	mov [max], eax
+    46                                  	
+    47                                  	; Print max
+    48 0000002F E80C000000              	call PrintMax
+    49                                  	
+    50 00000034 B801000000              	mov eax, 1
+    51 00000039 BB00000000              	mov ebx, 0
+    52 0000003E CD80                    	int 80h
+    53                                  
+    54                                  ; PrintMax prints the max integer to the console
+    55                                  PrintMax:
+    56 00000040 8A15[00000000]            mov dl, [max]
+    57 00000046 80C230                    add dl, 48
+    58 00000049 8815[00000000]            mov [max], dl
+    59                                    
+    60 0000004F B804000000                mov eax, 4
+    61 00000054 BB01000000                mov ebx, 1
+    62 00000059 B9[00000000]              mov ecx, max
+    63 0000005E BA01000000                mov edx, 1
+    64                                  
+    65 00000063 CD80                    	int 80h;
+    66                                  	
+    67 00000065 C3                      	ret
+    68                                  
+    69                                  ; compareMax assigns dl to largest value between al and bl
+    70                                  compareMax:
+    71                                    ; if (al > bl)
+    72 00000066 38D8                      cmp al, bl
+    73 00000068 7703                      ja al_bigger
+    74                                    ; else dl = bl
+    75 0000006A 88DA                      mov dl, bl
+    76 0000006C C3                        ret
+    77                                    
+    78                                  al_bigger:
+    79                                    ; dl = al
+    80 0000006D 88C2                      mov dl, al
+    81 0000006F C3                        ret

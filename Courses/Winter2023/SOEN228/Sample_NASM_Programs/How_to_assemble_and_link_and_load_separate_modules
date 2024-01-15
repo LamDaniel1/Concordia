@@ -1,0 +1,131 @@
+
+To assemble and load separate modules with NASM:
+
+1) Suppose we define a subroutine in a separate module
+   by itself, we use the 'global' assembler directive to 
+   tell the assembler that the symbol is defined in the present
+   module but used in some other module:
+
+
+this is in the file called "max.asm":
+
+-----------------------------------------------
+
+section .text
+
+
+; define a subroutine which determines the larger
+; of two arguments which are passed via the al and bl registers
+; the subroutine returns the result in the dl register
+; the function is defines as a separate module (i.e. in
+; a separate file called max.asm
+; use the global assembler directive to indicate to the linker
+; that the symbol "max" is made use of in some other module
+
+global max
+
+max:        cmp al, bl      ; is al >= bl ?
+            jae al_bigger  ; if true, then max is al
+            mov dl, bl      ; else bl is the max so mov it into 'result' reg. dl
+            ret             ; and return from the subroutine
+al_bigger:  mov dl, al      ; al >= bl, so load dl with al and return
+            ret
+
+
+
+----------------------------------------------------------------------
+
+2) In the module which uses the separately defined symbol, we use the
+   'extern' assembler directive to indicate to the assembler that the
+   symbol is defined elsewhere (or else an error would occur:
+
+This is in the file "max_subroutine_separate_module.asm" :
+It can be considers as the "main" or starting point of the
+program
+
+------------------------------------------------------------------
+
+section .data
+
+num1 db 1,2,3,4
+num2 db 5,1,7,2
+
+section .bss
+
+; put UNINITIALIZED data here using
+
+ans resb 4
+
+section .text
+
+
+; define a subroutine which determines the larger
+; of two arguments which are passed via the al and bl registers
+; the subroutine returns the result in the dl register
+; this subroutine is defined in a separate module (i.e. in a
+; separate file, so use the extern assembler directive to
+; tell the assembler that this symbol is defined in a separate file
+
+
+        extern max
+
+        global _start
+
+_start:
+keith:   mov ecx , 4 ; initialize loop counter to 4
+         mov edi, num1 ; load first address
+         mov esi, num2 ; load second address
+         mov ebp, ans
+again:   mov al, [edi] ; get first number from memory into "parameter" register
+         mov bl, [esi] ; get second number from memory into "parameter" register
+         call max      ; invoke the subroutine
+         mov [ebp] , dl ; save the max into memory
+         inc edi
+        inc esi
+         inc ebp
+         loop again
+
+
+        mov eax,1            ; The system call for exit (sys_exit)
+        mov ebx,0            ; Exit with return code of 0 (no error)
+        int 80h
+
+
+
+------------------------------------------------------------------------------
+
+
+
+
+3) Assemble each .asm file separately to produce the .o and the .lis :
+
+
+ted@deadflowers>  nasm -f elf max.asm -l  max.lis
+ted@deadflowers> nasm -f elf max_subroutine_separate_module.asm -l max_subroutine_separate_module.lis
+
+
+4) Link the two .o modules together and load the executable into memory with 'ld':
+
+ted@deadflowers > ld -o max_separate max.o max_subroutine_separate_module.o
+
+
+
+If there is more than one separate module, each one has it
+s own "global" directive  and you would link it as:
+
+   ld -o  my_executable file1.o file2.o file3.o main_prog.o
+
+5) use ddd to single step the max_separate executable:
+
+   ddd max_separate &
+
+
+set a breakpoint at "again" (or second line of main program) 
+set a breakpoint at "max" (to be able to single step thru the subroutine)
+run the program
+
+examine registers, memory, and single step through code in usual manner.
+
+
+
+ 

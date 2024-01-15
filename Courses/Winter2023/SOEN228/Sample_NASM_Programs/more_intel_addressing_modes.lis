@@ -1,0 +1,158 @@
+     1                                  ; Ted Obuchowicz
+     2                                                              
+     3                                                                
+     4                                   section .data
+     5                                                                       
+     6                                  ; put your data in this section using
+     7                                  ; db , dw, dd directions
+     8                                                                         
+     9 00000000 0102030405              my_list db 1,2,3,4,5
+    10                                  
+    11                                  section .bss
+    12                                                                       
+    13                                  ; put UNINITIALIZED data here using
+    14                                  ; sum resb 5 format (read as sum reserve bytes 5 
+    15                                                                        
+    16                                                                         
+    17                                  section .text
+    18                                  global _start
+    19                                                            
+    20                                  _start:
+    21                                  ; put your code here   THIS IS THE FIRST ASSEMBLY LANGUAGE INSTRUCTION
+    22                                  keith:  ; THIS IS THE SECOND ASSEMBLY LANGUAGE INSTRUCTION  
+    23                                          ; 
+    24                                          ; THE REST OF THE PROGRAM IS ENTERED HERE
+    25                                                                        
+    26 00000000 B8[00000000]                    mov eax, my_list     ;  In INTEL terminology, this is called immediate addressing
+    27                                                               ; eax will be loaded with memory address
+    28                                                               ; of label "mylist"
+    29                                                               ; some textbooks and other assemblers for different
+    30                                                               ; processors use the notation mov dest_reg, # <some_immediate_data>
+    31                                                               ; to specify IMMEDIATE mode
+    32                                  
+    33                                                                        
+    34 00000005 8A1D[00000000]          ron:    mov bl, [my_list]    ; Intel calls this DIRECT addressing
+    35                                                               ; others refer to it as ABSOLUTE and typically
+    36                                                               ; use a different notational syntax .. this is
+    37                                                               ; often a source of confusion . ie.
+    38                                                               ; sometime textbooks will employ the syntax
+    39                                                               ; mov dest_register , my_list  to designate
+    40                                                               ; absolute addressing
+    41                                                               ; bl will be loaded with the 1 byte from
+    42                                                               ; memory location my_list (i.e. with value 1)
+    43                                                                        
+    44                                                                      
+    45 0000000B 8A08                            mov cl, [eax]         ; register indirect addressing
+    46                                                                ; cl will be loaded with 1 byte of date from
+    47                                                                ; memory location whose address is contained in
+    48                                                                ; register eax  (i.e. cl will also be loaded with 1)
+    49                                                                       
+    50 0000000D BA78563412                     mov edx, 12345678h    ;   INTEL immediate addressing
+    51                                                               ; edx will be loaded with the hex data 12345678
+    52                                                               ; which is found in the successive byte immediately
+    53                                                               ; following the byte specifying the opcode for mov ebx
+    54                                                               ; note for INTEL this immediate data is stored BACKWARDS
+    55                                                               ; 
+    56                                                               ;  OPCODE
+    57                                                               ;  78
+    58                                                               ;  56
+    59                                                               ;  34
+    60                                                               ;  12
+    61                                                               ; thus this is a 5 byte long instruction stored in memory
+    62                                                               ; note in INTEL assembly the # symbol is not needed to specify
+    63                                                               ; immediate mode addressing... it's presence in an instruction
+    64                                                               ; would most likely cause an error ...
+    65                                  
+    66                                  ;       mov al, #5           ; yes indeed this line causes an error:
+    67                                                               ; more_intel_addressing_modes.asm:66: error: expression syntax error 
+    68                                                               ; so you see when learning assembly language, half the battle is
+    69                                                               ; in getting silly syntactical notation straightened out... 
+    70                                                                       
+    71                                                                       
+    72                                  ; BASED and INDEXED addressing
+    73                                  ; these are fancy names for register indirect  
+    74                                  ; when we use "special" registers:
+    75                                  ; INTEL calls this mode BASED addressing when we use:
+    76                                  ; BX or EBX
+    77                                  ; BP or EPB
+    78                                  ; 
+    79                                  ; and they are called INDEXED addressing when we use:
+    80                                  ; SI or ESI 
+    81                                  ; DI or EDI
+    82                                                                       
+    83 00000012 BD[00000000]                     mov ebp, my_list
+    84 00000017 8A4500                           mov al, [ebp]       ; al loaded with 1
+    85 0000001A BE[00000000]                     mov esi, my_list
+    86 0000001F 8A0E                             mov cl , [esi]
+    87                                                                        
+    88                                  ; a DISPLACEMENT can be added to the contents of the
+    89                                  ; specified BASE or INDEX register
+    90                                                                      
+    91 00000021 8A4504                           mov  al, [ebp + 4]  ; al will be loaded with the 5th element of my_list
+    92                                                                       
+    93                                  ; most assemblers allow for the following equivalent way of
+    94                                  ; writing this base + displacement
+    95                                                                         
+    96                                  ;        mov bl, 4[ebp]      ; bl gets loaded with the 5th byte of the list 
+    97                                                               ; found in my_list[4] using Java array notation
+    98                                                               ; BUT NOT NASM AS IT GIVES AN ERROR !!!
+    99                                                                        
+   100                                  ;  can even specify a SYMBOLIC LABEL as the DISPLACEMENT VALUE
+   101                                  ; and use either a BASE or an INDEX register to get each
+   102                                  ; element in the list (by adding 1 to the BASE or INDEX register 
+   103                                  ; being used)  add 2 if using word size operands, 4 for double words
+   104                                                                        
+   105 00000024 BD00000000                      mov ebp , 0
+   106                                  ;       mov dl, my_list[ebp]     ; get the first element of the list
+   107                                                                   ; use the NASM friendly syntax 
+   108 00000029 8A95[00000000]                  mov dl, [my_list + ebp]
+   109 0000002F 45                              inc ebp                  ; make bp point to the next element
+   110 00000030 8A95[00000000]                  mov dl, [my_list + ebp]  ; get the 2nd element
+   111 00000036 45                              inc ebp
+   112 00000037 8A95[00000000]                  mov dl, [my_list+ebp]    ; get the 3rd element
+   113 0000003D 45                              inc ebp
+   114 0000003E 8A95[00000000]                  mov dl, [my_list + ebp]  ; get the 4th element
+   115                                                                       
+   116                                                                        
+   117                                  ; BASED-INDEXED ADDRESSING
+   118                                  ; another fancy word for good old register indirect when we
+   119                                  ; use the contents of a BASE register added together with the
+   120                                  ; contents of an INDEX register to obtain the memory address of the
+   121                                  ; operand
+   122                                                                      
+   123 00000044 BE[00000000]                   mov esi, my_list      ; load esi with starting address of my_list
+   124 00000049 BD00000000                     mov ebp, 0
+   125 0000004E 8A042E                         mov al, [esi + ebp]   ; get the 1st element
+   126 00000051 45                             inc ebp
+   127                                  ;     mov al, [ebp][esi]     ; same as saying [esi + ebp]
+   128                                                               ; will get the second element
+   129                                                               ; NASM DOESN'T LIKE THIS SYNTAX
+   130                                                               ; so use 
+   131 00000052 8A443500                      mov al, [ebp + esi]    ; this notation
+   132 00000056 45                            inc ebp
+   133 00000057 8A443500                      mov al, [ebp + esi]    ; get the 3rd element
+   134                                                               ; etcetera
+   135                                                               ; ad nauseum
+   136                                                                       
+   137                                  ; TOO MANY ADDRESSING MODES SPOILS THE ASSEMBLY LANGUAGE PROGRAMMER
+   138                                  ; Intel even allows for a DISPLACEMENT to be specified when using
+   139                                  ; BASED-INDEXED ADDRESSING to come up with something their engineers
+   140                                  ; call "BASED-INDEXED WITH DISPLACEMENT" which is yet another fancy
+   141                                  ; variation of good old register indirect addressing:
+   142                                                                      
+   143 0000005B BE00000000                     mov esi, 0
+   144 00000060 BD00000000                     mov ebp, 0
+   145                                  ;      mov al, my_list[ebp][esi]       ; al gets loaded with 1st 
+   146                                                                         ; element of list
+   147                                                                         ; use the NASM friendly syntax
+   148 00000065 8A8435[00000000]               mov al, [my_list + ebp + esi]
+   149 0000006C 46                             inc esi
+   150 0000006D 8A8435[00000000]               mov al, [my_list + ebp + esi]   ; al gets loaded with 2nd element
+   151 00000074 46                             inc esi
+   152 00000075 8A8435[00000000]               mov al, [my_list + ebp + esi]   ; get 3rd element of list
+   153                                                                       
+   154                                                                    
+   155 0000007C B801000000                     mov eax,1            ; The system call for exit (sys_exit)
+   156 00000081 BB00000000                     mov ebx,0            ; Exit with return code of 0 (no error)
+   157 00000086 CD80                           int 80h
+   158                                                                      

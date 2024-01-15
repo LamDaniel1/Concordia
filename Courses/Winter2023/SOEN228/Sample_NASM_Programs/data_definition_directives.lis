@@ -1,0 +1,53 @@
+     1                                  section .data
+     2                                  
+     3                                  ; put your data in this section using
+     4                                  ; db , dw, dd directions
+     5                                  
+     6                                  ; examples of db (DEFINE BYTE assembler directive )
+     7                                  
+     8 00000000 05                      num1 db 5 ; decimal number 5
+     9 00000001 A2                      num2 db 0xa2 ; hexadecimal
+    10 00000002 A2                      num3 db 0a2h ; alternative form of specifying hexadecimal notation
+    11 00000003 A2                      num4 db $0a2 ; hex yet again, the leading 0 IS REQUIRED 
+    12 00000004 A2                      num5 db 10100010b ; same number specified in binary
+    13                                  
+    14                                  ; examples of dw (DEFINE WORD assembler directive)
+    15                                  
+    16 00000005 4101                    num6 dw 321 ; decimal 321 as a WORD of memory = 2 BYTES
+    17 00000007 B62A                    num7 dw 0x2ab6 ; how will this word be stored in memory?
+    18                                                 ; which byte is stored first?
+    19                                  
+    20 00000009 B62A                    num8 dw 0010101010110110b ; same number as above but in binary
+    21                                  
+    22                                  ; examples of dd (DEFINE DOUBLEWORD assembler directive)
+    23                                  
+    24 0000000B 78563412                num9 dd 0x12345678  ; 4 bytes of memory required to store a double word
+    25                                  
+    26                                  ; we can even define ASCII characters and ASCII character strings
+    27                                  
+    28 0000000F 61                      letter db 'a'  ; ASCII code for 'a' will be stored in memory location letter
+    29 00000010 62636465                more_letters db 'b','c','d','e'  ; if more than one letter, separate with commas
+    30 00000014 6B65697468              keith1 db 'keith' ; a character string is enclosed in single quotes
+    31 00000019 6D69636B                mick db 'mick'  ; another string
+    32                                  
+    33                                  section .bss
+    34                                  
+    35                                  ; put UNINITIALIZED data here using
+    36                                  ; sum resb 5 format (read as sum reserve bytes 5 
+    37                                  
+    38                                  
+    39 00000000 <res 0000000A>          num10 resb 10 ; reserve 10 bytes
+    40 0000000A <res 00000004>          num11 resw 2 ; reserve 2 words
+    41                                   
+    42                                  section .text
+    43                                          global _start
+    44                                  
+    45                                  _start:
+    46                                  keith:  ; put your code here
+    47                                    
+    48                                          ; 
+    49                                    
+    50 00000000 B801000000                      mov eax,1            ; The system call for exit (sys_exit)
+    51 00000005 BB00000000                      mov ebx,0            ; Exit with return code of 0 (no error)
+    52 0000000A CD80                            int 80h
+    53                                  

@@ -1,0 +1,44 @@
+Concordia University
+Department of Computer Science and Software Engineering
+Soen 228  Winter  2016
+
+Assembly Language  Programming Assignment 1
+Date Assigned:  Tuesday, March 29, 2016
+Date Due:       Tuesday, April 12, 2016 
+
+
+Instructions:  Demonstrate each program to your lab TA. Print
+               out your .lis file and have it signed by your lab TA.
+               Submit your executable program and your .asm file using
+               EAS.
+
+
+Write the following INTEL 8088 assembly language programs
+
+1. compare four 16-bit integers which represent signed numbers in
+   two's complement notation. The integers are named MICK, KEITH, CHARLIE,
+   and RON. Store the largest value in the AX register and the smallest
+   value in the DX register. Test your program with the following data:
+
+
+MICK 	dw 30000
+KEITH 	dw 0ABCDH
+CHARLIE dw 7FFFH
+RON 	dw 1000100010001000B
+
+
+2. Repeat the above this time assuming that the 16-bit integers represent
+   UNSIGNED binary numbers.
+
+
+3. Given an array of 10 8-bit integers, count and add up all the positive,
+   even numbers. Store the sum in the AX register and the count in the
+   CX register. Test your program with your own data values.
+
+
+
+
+Single step your program and examine memory contents as necessary to
+verify your programs work correctly.
+
+

@@ -1,0 +1,86 @@
+Concordia University
+Department of Computer Science and Software Engineering
+SOEN 228
+WINTER  2019
+
+Intel Assembly Language Programming Assignment
+
+Tentative Due Date:  Tuesday, April 9, 2019 (Sec. SS)
+      
+
+
+Instructions:
+
+Submit your executable program and your .asm file using
+EAS   ( https://fis.encs.concordia.ca/eas) by  Tuesday, April 9, 2019.
+
+Print out both your .asm and .lis files and submit
+both IN CLASS ON  TUESDAY APRIL 9, 2019. ENSURE THAT
+YOUR NAME AND ID NUMBER ARE CLEARLY INDICATED ON THE
+FIRST PAGE.
+
+
+NOTE: April 9, 2019 is the tentative due date. If this 
+      date is changed to a later date, the instructions
+      for submission of the hardcopy printouts will be modified.
+      You will still be required to perform the EAS submission
+       as above (but the due date for the EAS submission will be
+      the sdame as the hardcopy submission).
+
+
+
+Complete the following Intel assembly language program
+which determines whether the byte sized operand stored
+in memory location 'number' is prime or not. The program
+will write the value of 0 into the memory location 'answer'
+if the number is not prime, otherwise the initial value of '1' will
+be left unmodified (indicating that the number is prime).  The program
+makes use of the DIV instruction to determine the value of quotient
+and remainder when dividing the number by 2,3,4,... (number -1) . 
+
+section .data
+
+; put your data in this section using
+; db , dw, dd directions
+
+number db  5
+answer db  1    ;  1 means number is prime, 0 means number is not prime
+section .bss
+
+; put UNINITIALIZED data here using
+ 
+section .text
+        global _start
+
+_start:
+       mov esi, number ; get the offset of number into esi  
+keith: mov eax, 0      ; clear the entire eax register
+       mov al, [esi]   ; get the number from memory into al
+       mov dl, al      ; put it inside dl as well
+       mov bl, 2       ; bl holds each divisor starting from 2
+loopy: div bl          ; ax / bl  with quot in al and rem in ah
+       and ax, 1111111100000000b   ;  isolate the rem in ah with a  AND mask
+                                   ; to determine whether the remainder is 0
+
+; YOU COMPLETE THE REST OF THE CODE
+
+
+
+
+HINT:  The program is to implement the following high-level
+        pseudocode:
+
+       prime = true ;
+       divisor = 2 ;
+       while ( divisor < number )
+       {
+          if ( the remainder of number / divisor is 0 )
+          {
+             prime = false ; // we found a divisor which evenly divides number
+          }                  // so therefore number cannot be prime
+         
+          divisor = divisor + 1 ;  // check the next divisor and keep looping
+       }
+
+
+       

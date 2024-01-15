@@ -1,0 +1,42 @@
+     1                                  section .data
+     2                                  
+     3                                  ; put your data in this section using
+     4                                  ; db , dw, dd directions
+     5                                  
+     6                                  
+     7 00000000 0102030405              list1 db 1,2,3,4,5
+     8 00000005 060708090A              list2 db 6,7,8,9,10
+     9                                  
+    10                                  section .bss
+    11                                  
+    12                                  ; put UNINITIALIZED data here using
+    13                                  ; sum resb 5 format (read as sum reserve bytes 5 
+    14                                  
+    15                                  
+    16 00000000 <res 00000005>          list3 resb 5 
+    17                                   
+    18                                  section .text
+    19                                          global _start
+    20                                  
+    21                                  _start:
+    22                                    ; put your code here
+    23 00000000 B906000000              keith:    mov ecx , 6 ; initialize loop counter
+    24 00000005 BE00000000              ron:      mov esi, 0  ; clear index registers
+    25 0000000A BF00000000                        mov edi, 0  
+    26 0000000F BA00000000                        mov edx, 0
+    27 00000014 8A86[00000000]          again:    mov al , [esi + list1]
+    28 0000001A 8A9F[05000000]                    mov bl , [edi + list2] ;
+    29 00000020 00C3                              add bl, al ;
+    30 00000022 889A[00000000]                    mov [list3+ edx] , bl
+    31 00000028 46                                inc esi ; increment the 3 pointers
+    32 00000029 47                                inc edi
+    33 0000002A 42                                inc edx
+    34 0000002B E2E7                              loop again
+    35                                             
+    36                                  
+    37                                          ; 
+    38                                    
+    39 0000002D B801000000              mov eax,1            ; The system call for exit (sys_exit)
+    40 00000032 BB00000000              mov ebx,0            ; Exit with return code of 0 (no error)
+    41 00000037 CD80                    int 80h
+    42                                  

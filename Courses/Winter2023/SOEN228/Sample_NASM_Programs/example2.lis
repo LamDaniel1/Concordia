@@ -1,0 +1,23 @@
+     1                                  section .data
+     2                                  
+     3 00000000 010000000200000003-     number: dd 1,2,3,4,5
+     4 00000009 000000040000000500-
+     5 00000012 0000               
+     6 00000014 00000000                sum:    dd  0          ; reserve 1 byte initialize to 0
+     7                                  
+     8                                   
+     9                                  section .text
+    10                                          global _start
+    11                                  
+    12                                  _start:
+    13 00000000 B905000000              keith:  mov ecx, 5  ; initialize loop counter to 5 number in the list
+    14 00000005 B800000000              ron:    mov eax, 0 ; clear the 'sum' register
+    15 0000000A BB[00000000]                    mov ebx, number     ; load ebx wth address of first number
+    16 0000000F 0303                    again:  add eax,  [ebx]      ; add number from memory to 'sum' register
+    17 00000011 83C304                          add ebx,4           ; make ebx point to 'next' number in the array
+    18 00000014 E2F9                            loop again
+    19 00000016 A3[14000000]                    mov [sum], eax        ; save answer back in memory location called sum
+    20                                      
+    21 0000001B B801000000                      mov eax,1            ; The system call for exit (sys_exit)
+    22 00000020 BB00000000                      mov ebx,0            ; Exit with return code of 0 (no error)
+    23 00000025 CD80                            int 80h

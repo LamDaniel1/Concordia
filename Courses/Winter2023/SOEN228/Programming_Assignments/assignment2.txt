@@ -1,0 +1,58 @@
+Concordia University
+Department of Computer Science and Software Engineering
+COMP  5201 : Fall 2013
+
+Assembly Language   Programming Assignment 2
+
+Date Assigned:  Friday, Nov. 1, 2013
+Date Due:       Friday, Nov. 22, 2013
+
+Instructions:  Demonstrate each program to your lab TA. Print
+               out your .lis file and have it signed by your lab TA.
+               Submit your executable program and your .asm file using
+               EAS. Submit your signed .list file in class (lecture time)
+
+
+
+Write the following INTEL 80x86 assembly language programs
+
+
+1. Write a subroutine which determines the larger of two unsigned
+   numbers.  The two arguments are to be passed to the subroutine
+   via the CPU registers AL and BL.  The return value is to be placed
+   into CPU register DL.
+
+   Write a main program which declares two lists of numbers:
+
+section .data
+
+num1 db 1,2,3,4
+num2 db 5,1,7,2
+
+
+The main program uses a loop to read each pair of numbers and
+passes the two numbers as arguments to the subroutine. The 
+main program is to call the subroutine and then store the 
+maximum value in main memory at location max defined by the
+assembler directive:
+
+section .bss
+
+; put UNINITIALIZED data here using
+
+ans resb 4  
+
+
+
+
+Single step your program and examine memory contents as necessary to
+verify your programs work correctly. Observe the value of IP as the
+subroutine is called and returned from.
+
+2. Repeat part 1 above using the stack (instead of CPU registers)
+   to pass the two parameters to the subroutine.  Use the EBP register
+   to access the parameters from the stack.  
+
+
+
+

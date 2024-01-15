@@ -1,0 +1,59 @@
+
+Concordia University
+Department of Computer Science and Software Engineering
+SOEN 228/1 Sec. AA
+Summer  2022
+
+Intel Assembly Language Programming Assignment
+
+DUE DATE: Wednesday, June 15, 2022 IN CLASS.
+
+Submission Instructions:
+
+Print out BOTH  your .asm and .lis files and submit both in class
+by the due date. INCLUDE YOUR NAME AND ID NUMBERS ON BOTH PRINTOUTS.
+
+
+Write a complete Intel x86 assembly language program to perform the following:
+
+
+
+Compute the QUOTIENT and the REMAINDER obtained when performing the unsigned integer operation DIVIDEND / DIVISOR.  You MUST  make use of a loop. You are NOT to use any divide instruction. The program is to store the answers in the two byte sized memory locations associated  with the symbolic labels QUOTIENT and REMAINDER.  Store the  constants 5 and 2 into the two byte sized memory locations associated with DIVIDEND and DIVISOR respectively.  
+
+Hint:  5 / 2  is equal to QUOTIENT = 2 and REMAINDER = 1
+
+The following is the algorithm in high-level pseudocode which your
+assembly language program is to implement:
+
+initialize quotient to 0;
+
+while ( dividend >= divisor)
+{
+
+ dividend = dividend - divisor;
+ quotient = quotient + 1; (note quotient must start from 0)
+}
+
+remainder = whatever is left over in dividend when we exit the loop
+
+
+We will assume for simplicity that the divisor is not zero.     
+
+Single step  through your program using the gdb debugger. Display the appropriate memory locations using
+appropriate  command to show your input operands and the results.
+
+YOU MUST USE THE FOLLOWING .data and .bss sections:
+
+section .data
+
+
+dividend db 5
+divisor  db 2
+
+section .bss
+
+quotient resb 1
+remainder resb 1
+
+
+

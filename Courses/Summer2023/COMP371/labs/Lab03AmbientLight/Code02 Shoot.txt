@@ -1,0 +1,11 @@
+if (lastMouseLeftState == GLFW_RELEASE && glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
+            const float projectileSpeed = 25.0f;
+            projectileList.push_back(Projectile(cameraPosition, projectileSpeed * cameraLookAt, shaderProgram));
+            
+        }
+        lastMouseLeftState = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
+        
+        for (list<Projectile>::iterator it = projectileList.begin(); it != projectileList.end(); it++) {
+            it->Update(dt);
+            it->Draw();
+        }

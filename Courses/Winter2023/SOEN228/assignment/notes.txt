@@ -1,0 +1,39 @@
+TUTORIAL ASSIGNMENT NOTES:
+
+- Use templates from .asm files to write your program
+- example: use add_2_numbers.asm file as guidance for your assignment
+- use `gdb` as a debugger for your .asm file, use it to double check if your code works\
+- to access Ted's files, use PuTTy and connect using "login.encs.concordia.ca". Input your username and password.
+
+GDB:
+
+- command: "break" to add breakpoint at certain line
+- command: "run" to run your .asm file until it reaches breakpoint
+- command: "info registers" to view information regarding registers
+- command: "disassemble" to make assembly code more readable (assembly notation)
+- command: "set-disassembly-flavor intel" to run "disassemble" command into more familiar syntax
+
+ASSEMBLY NOTES:
+
+- using ";" indicates comments
+- assignment goal: recreate the C++ code on "soen228_NASM_assignment_winter_2023.txt" using assembly code
+
+1. Create your assembly source code first by using "touch 'filename'.asm" (e.g. touch soen228_ass1_id.asm). Write assembly code that will find the max number out of 4 int variables (HINT: use the "if statement" that the prof showed in class to recreate if statements and check out other files like "jump.asm"). Use nano as your code editor to write assembly code. (e.g. of command: "nano soen228_ass1_id.asm"). From there, you can write your assembly code like any IDE.
+
+2. Once you want to test your code out, use "nasm -f elf 'filename'.asm -l 'filename'.lis" to generate the executable of the assignment file that you will write.
+Rename "filename.asm" and "filename.lis" to whatever name that you want for your assignment (this is where you'll be writing your assembly code). Your ".lis" file will be used for debugging. (e.g. of command: "nasm -f elf add_2_numbers.asm -l add_2_numbers.lis")
+
+3. Verify if your .asm file works using "gdb" command
+
+4. idk i stopped listening lmao i wanna go home
+
+5. Submit your assignment by printing out the code on paper and giving it to him in class on Tuesday, April 11. (alternatively, try sending him screenshots of your code or your source file itself by email?)
+
+USEFUL FILES AND COMMANDS:
+
+- FILE: "jump.asm" for conditional statements (for the if statement)
+- FILE: "How_to_use_NASM" for more info as to how to use NASM
+- COMMAND: "ld -melf_i386 "filename".o -o "filename".out": link to object file as elf format (executable file)
+
+*side note: rename any "filename" with whatever names that you want
+

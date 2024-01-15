@@ -1,0 +1,24 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "compilerArgs": [
+                "-lglfw3 ",
+                "-lkernel32 ",
+                "-lopengl32 ",
+                "-lglu32",
+                "-lglew32",
+                "-lglm32"
+            ]
+        }
+    ],
+    "version": 4
+}

@@ -1,0 +1,244 @@
+
+
+Creating the Assembly Source Code:
+
+Use the following as a template:
+
+
+
+section .data
+
+; put your data in this section using
+; db , dw, dd directions
+
+ 
+section .text
+        global _start
+
+_start:
+        ; put your code here
+keith:  ; place a label at the SECOND instruction, and set the breakpoint to this label  
+        ; 
+  
+        mov eax,1            ; The system call for exit (sys_exit)
+        mov ebx,0            ; Exit with return code of 0 (no error)
+        int 80h
+
+
+Assembling and linking:
+-----------------------
+
+1. login to a SL5 Linux host (32bit version)  in the Hall Building labs,
+or either login.encs.concordia.ca  (32 bit OS version) ( aka grace) or computation.encs.concordia.ca
+(64 bit OS)  ( aka focus.encs.concordia.ca)
+
+ssh login.encs.concordia.ca
+
+ssh computation.encs.concordia.ca
+
+To verify  the version number :
+
+grace(~) [102] > nasm -version
+NASM version 0.98.39 compiled on Oct 29 2008
+
+
+
+AITS has also copied it over to the 64bit OS (installed on 'computation'):
+
+focus(~) [101] > nasm -version
+NASM version 0.98.39 compiled on Oct 29 2008
+
+
+To assemble and load on 32 bit OS:  (March 25, 2011)
+---------------------------------
+
+nasm -f elf filename.asm  -l filename.lis    (the -l is used to generate the listing file)
+ld -o executable_name filename.o
+
+
+NOTE: elf stands for "Executable and Linkable Format"
+
+
+To assemble and load on 64 bit OS:
+---------------------------------
+
+ted@focus Code 6:47pm >nasm -f elf test.asm -l test.lis
+ted@focus Code 6:47pm >ld -o test test.o
+ld: warning: i386 architecture of input file `test.o' is incompatible
+   with i386:x86-64 output
+
+To eliminate the warning  use the -melf_i386 option on the ld command line:
+
+ted@focus Code 6:47pm > ld -melf_i386 -o  test test.o
+
+One may perform :
+
+setenv LDEMULATION elf_i386   from the prompt of a 64 bit OS system to avoid having to
+explicitly use the -m option with ld.
+
+
+setenv LD_LIBRARY_PATH /encs/pkg/ddd-3.3.12/root/lib64
+
+
+
+ As of May 28, 2013 on Hall building systems:
+
+    setenv LD_LIBRARY_PATH /encs/pkg/ddd-3.3.12/root/lib64
+
+before running ddd for the first time on a lab machine.
+
+
+NOTE: AITS has written a wrapper script for 'ddd' which sets LD_LIBRARY_PATH
+      to the appropriate above value, so there is no real need to manually set it.
+
+
+
+
+Debugging:
+
+ddd exename &
+
+or
+
+gdb <exename>
+
+
+br <label-name>
+   sets breakpoint at a given label
+
+
+br keith  ( set a breakpoint at the SECOND instruction, or else the program will stop before
+            it gets a chance to run ).
+
+run
+   runs it, so the program stops at the breakpoint
+stepi/nexti
+   step through the program instruction-by-instruction
+   the former does not go inside procedures, the latter does
+
+info all-registers
+   shows registers' contents
+
+I have a mini-tutorial that I used in my class:
+
+http://www.concordia.tav.ca/~comp5201/summer-2004/tutorials/nasm.pdf
+
+
+
+when DDD window appears do:
+
+1: Status -> Registers 
+
+2: View -> Machine code window
+
+
+3: set breakpoints
+
+4: run 
+
+5: stepi
+
+
+
+If yopu wish to examine memory contents, from the main window select Data -> Memory,
+specify the number of bytes to display as well as the starting address ( in proper format
+such as: 0x80490a0) , the values will be displayed in the main window. Or you can simply type
+in:
+
+(gdb) x /10xb 0x80490a0
+0x80490a0 <num1>:	0x05	0xa2	0xa2	0xa2	0xa2	0x41	0x01	0xb6
+0x80490a8 <num7+1>:	0x2a	0xb6
+(gdb) 
+
+
+
+
+
+
+NASM has a disassembler:
+------------------------
+
+
+ % ndisasm
+usage: ndisasm [-a] [-i] [-h] [-r] [-u] [-b bits] [-o origin] [-s sync...]
+               [-e bytes] [-k start,bytes] [-p vendor] file
+   -a or -i activates auto (intelligent) sync
+   -u sets USE32 (32-bit mode)
+   -b 16 or -b 32 sets number of bits too
+   -h displays this text
+   -r or -v displays the version number
+   -e skips <bytes> bytes of header
+   -k avoids disassembling <bytes> bytes from position <start>
+   -p selects the preferred vendor instruction set (intel, amd, cyrix, idt)
+ %
+
+
+MACROS and NASM
+--------------
+
+; A macro to print out a (text) buffer
+; of a certain length
+;
+; Synopsis:
+;   print <buffer>, <length>
+
+%macro print 2
+        mov ecx, %1
+        mov edx, %2
+        mov ebx, STDOUT
+        mov eax, WRITE
+        int 0x80
+%endmacro
+
+It kinda takes 2 parameters as an "input", %1 and %2, which get replaced
+by the actual values by the preprocessor once first used.
+
+usage example
+
+
+
+_start:
+        ...
+        print msg, 40
+        ..
+
+
+
+
+
+
+
+(gdb) help stack
+Examining the stack.
+The stack is made up of stack frames.  Gdb assigns numbers to stack frames
+counting from zero for the innermost (currently executing) frame.
+
+At any time gdb identifies one frame as the "selected" frame.
+Variable lookups are done with respect to the selected frame.
+When the program being debugged stops, gdb selects the innermost frame.
+The commands below can be used to select other frames by number or
+address.
+
+List of commands:
+
+backtrace -- Print backtrace of all stack frames
+bt -- Print backtrace of all stack frames
+down -- Select and print stack frame called by this one
+frame -- Select and print a stack frame
+return -- Make selected stack frame return to its caller
+select-frame -- Select a stack frame without printing anything
+up -- Select and print stack frame that called this one
+
+Type "help" followed by command name for full documentation.
+Command name abbreviations are allowed if unambiguous.
+
+
+
+
+For a You Tube video on how to use nasm and the command line
+debugger (gdb) instead of the GUI ddd debugger produced by Peryy
+Jones,  go to:
+
+https://www.youtube.com/watch?v=p_2Gj26uBew
+
+

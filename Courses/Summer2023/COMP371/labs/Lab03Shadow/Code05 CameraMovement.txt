@@ -1,0 +1,19 @@
+if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) // move camera to the left
+        {
+            cameraPosition -= cameraSideVector * currentCameraSpeed * dt;
+        }
+        
+        if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) // move camera to the right
+        {
+            cameraPosition += cameraSideVector * currentCameraSpeed * dt;
+        }
+        
+        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) // move camera up
+        {
+            cameraPosition -= cameraLookAt * currentCameraSpeed * dt;
+        }
+        
+        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) // move camera down
+        {
+            cameraPosition += cameraLookAt * currentCameraSpeed * dt;
+        }

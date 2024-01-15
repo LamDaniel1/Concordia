@@ -1,0 +1,119 @@
+Using the Electronic Assignment Submission  (EAS) System
+--------------------------------------------------------
+
+
+The Faculty of ENCS has an Electronic Assignment Submission(EAS) system which
+may be used by students to submit assignments electronically via a Web
+interface from any Web browser. Access to the EAS system is controlled using the ENCS account username/password  pair.
+
+The Electronic Assignment Submission system's URL is at:
+
+    https://fis.encs.concordia.ca/eas
+
+
+Student Submissions Upload:
+After authenticating to the EAS system and selecting the Student tab, the students are presented with three tabbed menu choices. The Upload submissions tab will allow the student to select:
+
+    * the course section they want to submit to
+    * the submission type and number (eg. theory assignment 1)
+    * the file they want to submit as assignment 
+
+Optional student comments for their marker can be entered in a text box. After the submission file is uploaded, a result page will display the following details: student name, student ID, ENCS account name, course section, submission type and number, file name, file size and the time stamp of the submission. In the same time, this information is emailed to the student as well.
+
+
+
+The EAS system will be used to for the online quizzes and the online
+midterm. For both the quiizes and the online midterm, the following
+items are to be submitted using the EAS:
+
+
+1) the program source code in ASCII text format.  MAKE SURE that your name
+   and ID number appear as comments at the top of your program source
+   code. For example, if your program source code is saved in a file with
+   filename hello.C  ensure that your name and ID appears as a program 
+   comment as in the following example:
+
+
+
+
+// Ted Obuchowicz
+// 9999999
+// hello world program
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main()
+{
+
+ cout << "Hello World" << endl;
+ return 0;
+}
+
+
+You would then submit the ASCII text file hello.C (or whatever filename
+you chose for your quiz, such as Quiz1.C
+
+2) the binary executable file, i.e. if you used the command:
+
+   g++ -o hello hello.C
+
+you would submit the hello.C file and the executable file hello.
+
+
+3) During the online quiz/midterm, you will demonstrate your program
+   operation to the person invigilating the quiz/midterm.  You will
+   also print out a hardcopy of your program source code and submit it
+   to the invigilator. Use the :
+
+
+   lpr -Pprinter_name filename.C
+
+command to print to a printer such as  "stamp" or "chalk".
+
+To print to one of the Dprint copiers, use the command:
+
+   lpr -Pdprint_mono filename.C 
+
+The print jop may be retrieved from any of the self service locations
+on campus. You simply go to the Xerox machine of your choice, swipe your Concordia ID card and select the job stored on the IITS Server. As the print job remains in the print queue temporarily, there is no need to ever cancel it.
+
+
+
+
+Or , use 'a2ps' to convert ASCII into Postscript and send it to the printer:
+
+
+Linux_prompt > a2ps -Pstamp  myprog.C
+
+               a2ps -Pmarker test.C
+ 
+               a2ps -Pchalk test.C
+
+               a2ps -Pdprint_mono test.C
+
+
+or, first create the Postscript file, and then send it to a printer with 'lpr':
+
+Linux_prompt >   a2ps -o myprog.ps  myprog.C
+Linux_prompt >   lpr -P<printer_name> myprog.ps
+
+
+The command to run the Mozilla Firefox web browser from the Linux
+system is simply:
+
+
+Linux_prompt >   firefox &
+
+This will open up the browser and return yopu back to your prompt in the
+Xterminal from which you entered the command.
+
+
+If for any reason  you are not able to enter into the EAS system,
+you may email your program source code to either myself (ted@ece.concordia.ca)
+or the person who is invigilating the online quiz/midterm.
+
+
+
+

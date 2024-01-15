@@ -1,0 +1,17 @@
+#version 330 core
+
+// Ouput of fragment shader
+out vec4 frag_color;
+
+in vec4 v_color;
+in vec3 normal; // You will need this when you do per-fragment lighting
+
+uniform float opacity;
+
+
+void main()
+{
+	// set the fragment color to the interpolated vertex color, with a custom opacity
+	frag_color = vec4(v_color.xyz, opacity);
+
+}

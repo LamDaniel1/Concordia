@@ -1,0 +1,38 @@
+
+ Using INT 80h for reading/writing strings
+
+To Write a String:
+
+load into the registers:
+
+EAX EBX  ECX                 EDX
+4    1   Address of string  # chars in string
+
+
+then execute the
+
+INT 80h   instruction.
+
+To Read a String:
+
+load into the registers:
+
+EAX EBX  ECX                   EDX              RETURNS in EAX
+3    2   Address of string max # chars to read   # of chars actually read includes newline
+
+
+then execute the 
+
+INT 80h   instruction.
+
+To Exit the program (return back to command line):
+
+
+load into the registers:
+EAX EBX ECX EDX
+1    0       
+
+
+then execute
+
+INT 80h   instruction.

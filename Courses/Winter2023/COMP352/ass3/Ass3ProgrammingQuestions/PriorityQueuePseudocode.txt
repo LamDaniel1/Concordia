@@ -1,0 +1,64 @@
+# Daniel Lam (40248073)
+# Pseudocode for Adaptable and Flexible Priority Queue
+
+class CustomPriorityQueue() {
+    CustomState state;
+    CustomList contents;
+    
+    function removeTop() {
+        return remove(top())
+    }
+    
+    function insert(key, value) {
+        entry = new Entry(key, value, contents.size);
+        contents.add(entry)
+        upheap(entry)
+    }
+    
+    function top():
+        contents.getContents[0]
+        
+    function remove(Entry entry) {
+        lastEntry = contents.getLast()
+        swap(lastEntry, entry)
+        
+        contents.removeLast()
+        
+        downheap(lastEntry)
+        upheap(lastEntry)
+        
+        return lastEntry
+    }
+        
+    function replaceKey(entry, newKey) {
+        temp = entry.getValue()
+        entry.setValue(newKey)
+        return temp
+    }
+    
+    function toggle() {
+        if (state is MIN_HEAP) {
+            state = MAX_HEAP
+        } else {
+            state = MIN_HEAP
+        }
+        
+        for (int i = contents.size()/2 - 1; i >= 0; i--) {
+            internalNode = contents.get(i);
+            downheap(internalNode);
+        }
+    }
+    
+    function state() {
+        return state
+    }
+    
+    function isEmpty() {
+        return contents.isEmpty
+    }
+    
+    function size() {
+        return contents.size
+    }
+}
+

@@ -1,0 +1,34 @@
+     1                                  
+     2                                  
+     3                                  section .data
+     4                                  
+     5                                  ; put your data in this section using
+     6                                  ; db , dw, dd directions
+     7                                  
+     8 00000000 05                      val1 db 0x05 ; 
+     9 00000001 04                      val2 db 0x04 ; 
+    10 00000002 03                      val3 db 0x03 ;  
+    11 00000003 02                      val4 db 0x02 ; 
+    12 00000004 01                      val5 db 0x01 ; 
+    13                                  
+    14                                  section .bss
+    15                                  
+    16                                  ; put UNINITIALIZED data here using
+    17                                  ; sum resb 5 format (read as sum reserve bytes 5 
+    18                                  ; if you're curious bss stands for Block Started by Symbol
+    19                                  
+    20                                   
+    21                                  section .text
+    22                                          global _start
+    23                                  
+    24                                  _start:
+    25 00000000 B9[01000000]                    mov ecx, val2 
+    26 00000005 668B19                  line2:  mov bx, [ecx]   
+    27 00000008 83C101                  line3:  add ecx, 0x01  
+    28 0000000B 668B01                  line4:  mov ax, [ecx]  
+    29 0000000E 6601D8                  line5:  add ax, bx
+    30                                  
+    31 00000011 B801000000                      mov eax,1            ; The system call for exit (sys_exit)
+    32 00000016 BB00000000                      mov ebx,0            ; Exit with return code of 0 (no error)
+    33 0000001B CD80                            int 80h
+    34                                  
