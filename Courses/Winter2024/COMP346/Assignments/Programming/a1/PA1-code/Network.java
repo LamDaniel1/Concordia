@@ -345,7 +345,7 @@ public class Network extends Thread {
         inComingPacket[inputIndexClient].setTransactionError(inPacket.getTransactionError());
         inComingPacket[inputIndexClient].setTransactionStatus("transferred");
 
-        System.out.println("\n DEBUG : Network.send() - index inputIndexClient " + inputIndexClient);
+        Debug.print("\n DEBUG : Network.send() - index inputIndexClient " + inputIndexClient);
         System.out.println(
                 "\n DEBUG : Network.send() - account number " + inComingPacket[inputIndexClient].getAccountNumber());
 
@@ -357,7 +357,7 @@ public class Network extends Thread {
         if (getinputIndexClient() == getoutputIndexServer()) {
             setInBufferStatus("full");
 
-            System.out.println("\n DEBUG : Network.send() - inComingBuffer status " + getInBufferStatus());
+            Debug.print("\n DEBUG : Network.send() - inComingBuffer status " + getInBufferStatus());
         } else
             setInBufferStatus("normal");
 
@@ -381,8 +381,8 @@ public class Network extends Thread {
         outPacket.setTransactionError(outGoingPacket[outputIndexClient].getTransactionError());
         outPacket.setTransactionStatus("done");
 
-        System.out.println("\n DEBUG : Network.receive() - index outputIndexClient " + outputIndexClient);
-        System.out.println("\n DEBUG : Network.receive() - account number " + outPacket.getAccountNumber());
+        Debug.print("\n DEBUG : Network.receive() - index outputIndexClient " + outputIndexClient);
+        Debug.print("\n DEBUG : Network.receive() - account number " + outPacket.getAccountNumber());
 
         setoutputIndexClient(((getoutputIndexClient() + 1) % getMaxNbPackets())); /*
                                                                                    * Increment the output buffer index
@@ -392,7 +392,7 @@ public class Network extends Thread {
         if (getoutputIndexClient() == getinputIndexServer()) {
             setOutBufferStatus("empty");
 
-            System.out.println("\n DEBUG : Network.receive() - outGoingBuffer status " + getOutBufferStatus());
+            Debug.print("\n DEBUG : Network.receive() - outGoingBuffer status " + getOutBufferStatus());
         } else
             setOutBufferStatus("normal");
 
@@ -416,8 +416,8 @@ public class Network extends Thread {
         outGoingPacket[inputIndexServer].setTransactionError(outPacket.getTransactionError());
         outGoingPacket[inputIndexServer].setTransactionStatus("transferred");
 
-        System.out.println("\n DEBUG : Network.transferOut() - index inputIndexServer " + inputIndexServer);
-        System.out.println("\n DEBUG : Network.transferOut() - account number "
+        Debug.print("\n DEBUG : Network.transferOut() - index inputIndexServer " + inputIndexServer);
+        Debug.print("\n DEBUG : Network.transferOut() - account number "
                 + outGoingPacket[inputIndexServer].getAccountNumber());
 
         setinputIndexServer(((getinputIndexServer() + 1) % getMaxNbPackets())); /*
@@ -428,7 +428,7 @@ public class Network extends Thread {
         if (getinputIndexServer() == getoutputIndexClient()) {
             setOutBufferStatus("full");
 
-            System.out.println("\n DEBUG : Network.transferOut() - outGoingBuffer status " + getOutBufferStatus());
+            Debug.print("\n DEBUG : Network.transferOut() - outGoingBuffer status " + getOutBufferStatus());
         } else
             setOutBufferStatus("normal");
 
@@ -444,7 +444,7 @@ public class Network extends Thread {
      * 
      */
     public boolean transferIn(Transactions inPacket) {
-        System.out.println("\n DEBUG : Network.transferIn - account number "
+        Debug.print("\n DEBUG : Network.transferIn - account number "
                 + inComingPacket[outputIndexServer].getAccountNumber());
         inPacket.setAccountNumber(inComingPacket[outputIndexServer].getAccountNumber());
         inPacket.setOperationType(inComingPacket[outputIndexServer].getOperationType());
@@ -453,8 +453,8 @@ public class Network extends Thread {
         inPacket.setTransactionError(inComingPacket[outputIndexServer].getTransactionError());
         inPacket.setTransactionStatus("received");
 
-        System.out.println("\n DEBUG : Network.transferIn() - index outputIndexServer " + outputIndexServer);
-        System.out.println("\n DEBUG : Network.transferIn() - account number " + inPacket.getAccountNumber());
+        Debug.print("\n DEBUG : Network.transferIn() - index outputIndexServer " + outputIndexServer);
+        Debug.print("\n DEBUG : Network.transferIn() - account number " + inPacket.getAccountNumber());
 
         setoutputIndexServer(((getoutputIndexServer() + 1) % getMaxNbPackets())); /*
                                                                                    * Increment the input buffer index
@@ -464,7 +464,7 @@ public class Network extends Thread {
         if (getoutputIndexServer() == getinputIndexClient()) {
             setInBufferStatus("empty");
 
-            System.out.println("\n DEBUG : Network.transferIn() - inComingBuffer status " + getInBufferStatus());
+            Debug.print("\n DEBUG : Network.transferIn() - inComingBuffer status " + getInBufferStatus());
         } else
             setInBufferStatus("normal");
 
@@ -531,7 +531,7 @@ public class Network extends Thread {
      * @param
      */
     public void run() {
-        System.out.println("\n DEBUG : Network.run() - starting network thread");
+        Debug.print("\n DEBUG : Network.run() - starting network thread");
 
         while (true) {
             /* Implement here the code for the run method ... */
